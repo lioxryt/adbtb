@@ -164,7 +164,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "5":
          while True:
-            menu_options = """\n 1. Push File\n 2. Pull File\n back"""
+            menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n back"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -177,6 +177,11 @@ def main():
                 remote = input("Select a Remote File: ")
                 local = input("Select a Local Path: ")
                 result = run_adb_command(f"pull {remote} {local}")
+                if result:
+                    print(result)
+            elif choice == "3":
+                remote = input("Select a Remote Folder or File: ")
+                result = run_adb_command(f"shell rm -r {remote}")
                 if result:
                     print(result)
             elif choice == "back":

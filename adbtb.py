@@ -87,7 +87,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "3":
             while True:
-                setting_options = """\n 1. Connections\n 2. Resolution\n back"""
+                setting_options = """\n 1. Connections\n 2. Resolution\n 3. Rotation\n back"""
                 print(setting_options)
 
                 settings_choice = input("Select an option: ")
@@ -121,11 +121,7 @@ def main():
                                 if bt_choice == "2": 
                                     result = run_adb_command(f"shell svc bluetooth disable")
                 if settings_choice == "2":
-                            res_options = """
-                        1. Current Resolution
-                        2. Set Resolution
-                        3. Reset Resolution
-                        """
+                            res_options = """\n 1. Current Resolution\n 2. Set Resolution\n 3. Reset Resolution"""
                             print(res_options)
                             res_choice = input("Select an option: ")  
                             if res_choice == "1": 
@@ -138,6 +134,37 @@ def main():
                             if res_choice == "3":
                                 result = run_adb_command(f"shell wm size reset")
                                 print(result)
+                if settings_choice == "3":
+                    choices = """\n 1. Auto Rotate ON\n 2. Auto Rotate OFF\n 3. Set Rotation"""
+                    print(choices)
+                    choice = input("Select an option: ")
+                    if choice == "1":
+                        result = run_adb_command("shell settings put system accelerometer_rotation 1")
+                        print(result)
+                    if choice == "2":
+                        result = run_adb_command("shell settings put system accelerometer_rotation 0")
+                        print(result)
+                    if choice == "3":
+                     run_adb_command("shell settings put system accelerometer_rotation 0")
+                     while True:
+                        choices = """\n 1. 0°\n 2. 90°\n 3. 180°\n 4. 270\n back°"""  
+                        print(choices)
+                        choice = input("Select an option: ")
+                        if choice == "1":
+                            result = run_adb_command("shell settings put system user_rotation 0")
+                            print(result)
+                        if choice == "2":
+                            result = run_adb_command("shell settings put system user_rotation 1")
+                            print(result)
+                        if choice == "3":
+                            result = run_adb_command("shell settings put system user_rotation 2")
+                            print(result)
+                        if choice == "4":
+                            result = run_adb_command("shell settings put system user_rotation 3")
+                            print(result)
+                        if choice == "back":
+                            os.system("clear")
+                            break
                 elif settings_choice == "back":
                     os.system("clear")
                     break

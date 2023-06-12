@@ -209,12 +209,12 @@ def main():
                     print("Failed to install the app.")
             elif app_choice == "3":         
                 package_name = input("Enter the package name of the app: ")
-                local = input("Enter where you want the APK to go: ")
+                local = input("Enter where you want the APK to go (default: apks/): ") or "apks"
                 result = run_adb_command(f"shell pm path {package_name}")
                 if result:
-                    apk_path = result.split(":")[1].strip()
+                    apk_path = result.split(":")[1].strip().replace("package", "")
                     result = run_adb_command(f"pull {apk_path} {local}/{package_name}.apk")
-                    print("APK extracted successfully.")
+                    print(f"Successfully extracted APK from {apk_path} to {local}.")
                 else:
                     print("Failed to retrieve APK information.")
             elif app_choice == "4":

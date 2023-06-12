@@ -1,6 +1,5 @@
 import subprocess
 import os
-import re
 os.system("clear")
 
 def run_adb_command(command):
@@ -20,12 +19,12 @@ def main():
             print(f"Currently Connected to {device_id}")
         else:
             print("No device connected.")
-        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. Edit Files\n 6. Open URL\n 7. App Options\n 8. Phone Options\n 9. Device Shell\n exit"""
+        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. Edit Files\n 6. Open URL\n 7. App Options\n 8. Phone Options\n 9. Device Shell\n exit\n"""
         print(menu_options)
         choice = input("Select an option: ")
         if choice == "1":
             while True:
-                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n back"""
+                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n back\n"""
                 print(menu_options)
                 choice = input("Select an option: ")
                 if choice == "1":
@@ -67,7 +66,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "2":
          while True:
-            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n back"""
+            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n back\n"""
             print(power_menu_options)
             power_choice = input("Select an option: ")
 
@@ -87,7 +86,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "3":
             while True:
-                setting_options = """\n 1. Connections\n 2. Resolution\n 3. Rotation\n back"""
+                setting_options = """\n 1. Connections\n 2. Volume\n 3. Resolution\n 4. Rotation\n back\n"""
                 print(setting_options)
 
                 settings_choice = input("Select an option: ")
@@ -95,14 +94,14 @@ def main():
                             connect_options = """
                         1. Wifi
                         2. Bluetooth
-                        """
+                        \n"""
                             print(connect_options)
                             connect_choice = input("Select an option: ")  
                             if connect_choice == "1":   
                                 wifi_options = """
                                 1. Enable
                                 2. Disable
-                                """
+                                \n"""
                                 print(wifi_options) 
                                 wifi_choice = input("Select an option: ")  
                                 if wifi_choice == "1": 
@@ -113,15 +112,39 @@ def main():
                                 bt_options = """
                                 1. Enable
                                 2. Disable
-                                """
+                                \n"""
                                 print(bt_options) 
                                 bt_choice = input("Select an option: ")  
                                 if bt_choice == "1": 
                                     result = run_adb_command(f"shell svc bluetooth enable")
                                 if bt_choice == "2": 
                                     result = run_adb_command(f"shell svc bluetooth disable")
-                if settings_choice == "2":
-                            res_options = """\n 1. Current Resolution\n 2. Set Resolution\n 3. Reset Resolution"""
+                elif settings_choice == "2":
+                    while True:
+                        volume_options = """\n 1. Increase Volume\n 2. Decrease Volume\n 3. Mute\n back\n"""
+                        print(volume_options)
+
+                        volume_choice = input("Select an option: ")
+                        if volume_choice == "1":
+                            increase_times = int(input("Enter the number of times to increase the volume: "))
+                            for _ in range(increase_times):
+                                result = run_adb_command("shell input keyevent KEYCODE_VOLUME_UP")
+                                print(result)
+                        elif volume_choice == "2":
+                            decrease_times = int(input("Enter the number of times to decrease the volume: "))
+                            for _ in range(decrease_times):
+                                result = run_adb_command("shell input keyevent KEYCODE_VOLUME_DOWN")
+                                print(result)
+                        elif volume_choice == "3":
+                            result = run_adb_command("shell input keyevent KEYCODE_MUTE")
+                            print(result)
+                        elif volume_choice == "back":
+                            os.system("clear")
+                            break
+                        else:
+                            print("Invalid choice.")
+                elif settings_choice == "3":
+                            res_options = """\n 1. Current Resolution\n 2. Set Resolution\n 3. Reset Resolution\n"""
                             print(res_options)
                             res_choice = input("Select an option: ")  
                             if res_choice == "1": 
@@ -134,8 +157,8 @@ def main():
                             if res_choice == "3":
                                 result = run_adb_command(f"shell wm size reset")
                                 print(result)
-                if settings_choice == "3":
-                    choices = """\n 1. Auto Rotate ON\n 2. Auto Rotate OFF\n 3. Set Rotation"""
+                elif settings_choice == "4":
+                    choices = """\n 1. Auto Rotate ON\n 2. Auto Rotate OFF\n 3. Set Rotation\n"""
                     print(choices)
                     choice = input("Select an option: ")
                     if choice == "1":
@@ -147,7 +170,7 @@ def main():
                     if choice == "3":
                      run_adb_command("shell settings put system accelerometer_rotation 0")
                      while True:
-                        choices = """\n 1. 0°\n 2. 90°\n 3. 180°\n 4. 270\n back°"""  
+                        choices = """\n 1. 0°\n 2. 90°\n 3. 180°\n 4. 270\n back°\n"""  
                         print(choices)
                         choice = input("Select an option: ")
                         if choice == "1":
@@ -172,7 +195,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "4":
          while True:
-            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 4. Run Scrcpy\n back"""
+            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 4. Run Scrcpy\n back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -191,7 +214,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "5":
          while True:
-            menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n back"""
+            menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -221,7 +244,7 @@ def main():
             result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
         elif choice == "7":
          while True:
-            app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Open App\n back"""
+            app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Open App\n back\n"""
             print(app_menu_options)
             app_choice = input("Select an option: ")
 
@@ -270,7 +293,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "8":
          while True:
-            menu_options = """\n 1. Make Phone Call\n 2. Send SMS\n 3. View All Contacts\n back"""
+            menu_options = """\n 1. Make Phone Call\n 2. Send SMS\n 3. View All Contacts\n back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":

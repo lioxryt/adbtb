@@ -1,5 +1,6 @@
 import subprocess
 import os
+import time
 os.system("clear")
 
 def run_adb_command(command):
@@ -211,7 +212,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "5":
          while True:
-            menu_options = """\n 1. Screenshot\n 2. Screen Record\n 3. Live Feed\n back\n"""
+            menu_options = """\n 1. Screenshot\n 2. Screen Record\n 3. Live Feed\n 4. Front Camera Picture\n back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -241,9 +242,25 @@ def main():
                     print("Screen recording saved successfully.")
                 else:
                     print("Failed to save the screen recording.")
-            if choice == "3":
+            elif choice == "3":
                 command = 'osascript -e \'tell application "Terminal" to do script "clear; scrcpy; exit"\''
                 subprocess.call(command, shell=True)
+            elif choice == "4":
+                front_camera_path = input("Enter the directory to save the front camera picture (leave blank for photos/): ")
+                if not front_camera_path:
+                    front_camera_path = "photos/"
+                elif not front_camera_path.endswith("/"):
+                    front_camera_path += "/"
+                result = run_adb_command("shell am start -a android.media.action.IMAGE_CAPTURE --ez android.intent.extra.USE_FRONT_CAMERA true")
+                time.sleep(1)
+                result = run_adb_command("shell screencap -p /sdcard/front_camera_picture.png")
+                pull_path = f"{front_camera_path}front_camera_picture.png"
+                result = run_adb_command(f"pull /sdcard/front_camera_picture.png {pull_path}")
+                result = run_adb_command("shell input keyevent KEYCODE_BACK")
+                if result:
+                    print("Front camera picture saved successfully.")
+                else:
+                    print("Failed to save the front camera picture.")
             elif choice == "back":
                 os.system("clear")
                 break

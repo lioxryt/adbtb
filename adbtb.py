@@ -335,7 +335,7 @@ def main():
                 package_name = input("Enter the package name of the app: ")
                 local = input("Enter where you want the APK to go (default: apks/): ")
                 if not local:
-                    local = "apk/"
+                    local = "apks/"
                 elif not local.endswith("/"):
                     local += "/"
                 result = run_adb_command(f"shell pm path {package_name}")

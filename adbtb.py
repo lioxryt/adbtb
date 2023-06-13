@@ -229,7 +229,7 @@ def main():
                     print("Failed to save the screenshot.")
             elif choice == "2":
                 duration = int(input("Enter the duration of the screen recording in seconds: "))
-                recording_path = input("Enter the directory to save the screen recording (leave blank for photos/): ")
+                recording_path = input("Enter the directory to save the screen recording (leave blank for videos/): ")
                 if not recording_path:
                     recording_path = "videos/"
                 elif not recording_path.endswith("/"):

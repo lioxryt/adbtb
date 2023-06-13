@@ -3,12 +3,22 @@ import os
 import time
 os.system("clear")
 
+debug_mode = False
+
+def toggle_debug_mode():
+    global debug_mode
+    debug_mode = not debug_mode
+
 def run_adb_command(command):
     try:
-        result = subprocess.check_output(["adb"] + command.split(), universal_newlines=True)
+        adb_command = ["adb"]
+        adb_command.extend(command.split())
+        
+        result = subprocess.check_output(adb_command, universal_newlines=True)
         return result.strip()
     except subprocess.CalledProcessError as e:
-        print(f"Error executing ADB command: {e}")
+        if debug_mode:
+            print(f"Error executing ADB command: {e}")
         return None
 
 def main():
@@ -20,7 +30,7 @@ def main():
             print(f"Currently Connected to {device_id}")
         else:
             print("No device connected.")
-        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n exit\n"""
+        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n 99. Toggle Debug\n exit\n"""
         print(menu_options)
         choice = input("Select an option: ")
         if choice == "1":
@@ -355,12 +365,12 @@ def main():
                     if confirmation.lower() == "y":
                         for package_name in packages:
                             result = run_adb_command(f"uninstall {package_name}")
-                            if "Success" in result:
-                                uninstalled_apps.append(package_name)
-                        for app_name in uninstalled_apps:
-                         print(f"App {app_name} uninstalled successfully.")
-                        else:
-                         print(f"Failed to uninstall {app_name}.")
+                            if result:
+                                print(f"App {package_name} uninstalled successfully.")
+                            else:
+                                print(f"Failed to uninstall app {package_name}.")
+                    else:
+                        print("App uninstallation canceled.")
                 else:
                     print("No apps found on the device.")
             elif app_choice == "6":
@@ -401,6 +411,9 @@ def main():
             command = 'osascript -e \'tell application "Terminal" to do script "clear; adb shell; exit"\''
             subprocess.call(command, shell=True)
             print(f"Accessing device shell. To exit, type 'exit'.")
+        elif choice == "99":
+            toggle_debug_mode()
+            print(f"Debug mode toggled. Debug mode is now {'ON' if debug_mode else 'OFF'}.")
         elif choice == "exit":
             os.system("clear")
             print("Exiting...")

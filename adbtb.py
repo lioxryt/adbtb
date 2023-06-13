@@ -298,7 +298,7 @@ def main():
             result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
         elif choice == "8":
          while True:
-            app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Open App\n back\n"""
+            app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Uninstall All Apps (Dangerous)\n 6. Open App\n back\n"""
             print(app_menu_options)
             app_choice = input("Select an option: ")
 
@@ -338,6 +338,27 @@ def main():
                 else:
                     print("Failed to uninstall the app.")
             elif app_choice == "5":
+                st = run_adb_command("shell pm list packages")
+                package_list = st.split('\n')
+                packages = []
+                for package in package_list:
+                    if package.startswith("package:"):
+                        packages.append(package.split("package:")[1])
+
+                if packages:
+                    confirmation = input("Are you sure you want to uninstall all apps? (Y/n): ")
+                    if confirmation.lower() == "y":
+                        for package_name in packages:
+                            result = run_adb_command(f"uninstall {package_name}")
+                            if result:
+                                print(f"App {package_name} uninstalled successfully.")
+                            else:
+                                print(f"Failed to uninstall app {package_name}.")
+                    else:
+                        print("App uninstallation canceled.")
+                else:
+                    print("No apps found on the device.")
+            elif app_choice == "6":
                 package_name = input("Enter the package name of the app: ")
                 result = run_adb_command(f"shell monkey -p {package_name} -c android.intent.category.LAUNCHER 1")
                 if result:

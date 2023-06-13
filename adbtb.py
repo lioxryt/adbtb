@@ -307,7 +307,6 @@ def main():
             app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Uninstall All Apps (Dangerous)\n 6. Open App\n back\n"""
             print(app_menu_options)
             app_choice = input("Select an option: ")
-
             if app_choice == "1":
                 result = run_adb_command("shell pm list packages")
                 if result:
@@ -356,12 +355,12 @@ def main():
                     if confirmation.lower() == "y":
                         for package_name in packages:
                             result = run_adb_command(f"uninstall {package_name}")
-                            if result:
-                                print(f"App {package_name} uninstalled successfully.")
-                            else:
-                                print(f"Failed to uninstall app {package_name}.")
-                    else:
-                        print("App uninstallation canceled.")
+                            if "Success" in result:
+                                uninstalled_apps.append(package_name)
+                        for app_name in uninstalled_apps:
+                         print(f"App {app_name} uninstalled successfully.")
+                        else:
+                         print(f"Failed to uninstall {app_name}.")
                 else:
                     print("No apps found on the device.")
             elif app_choice == "6":

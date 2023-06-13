@@ -87,15 +87,12 @@ def main():
                 print("Invalid choice.")
         elif choice == "3":
             while True:
-                setting_options = """\n 1. Connections\n 2. Volume\n 3. Resolution\n 4. Rotation\n back\n"""
+                setting_options = """\n 1. Connections\n 2. Volume\n 3. Battery\n 4. Resolution\n 5. Rotation\n back\n"""
                 print(setting_options)
 
                 settings_choice = input("Select an option: ")
                 if settings_choice == "1":
-                            connect_options = """
-                        1. Wifi
-                        2. Bluetooth
-                        \n"""
+                            connect_options = """\n 1. Wifi\n 2. Bluetooth\n"""
                             print(connect_options)
                             connect_choice = input("Select an option: ")  
                             if connect_choice == "1":   
@@ -145,6 +142,15 @@ def main():
                         else:
                             print("Invalid choice.")
                 elif settings_choice == "3":
+                            batt_options = """\n 1. Set Battery Level\n 2. Reset Battery Level\n"""
+                            print(batt_options)
+                            batt_choice = input("Select an option: ")
+                            if batt_choice == "1":
+                                battery_level = input("Enter the battery level: ")
+                                result = run_adb_command(f"shell dumpsys battery set level {battery_level}")
+                            elif batt_choice == "2":
+                                result = run_adb_command("shell dumpsys battery reset")
+                elif settings_choice == "4":
                             res_options = """\n 1. Current Resolution\n 2. Set Resolution\n 3. Reset Resolution\n"""
                             print(res_options)
                             res_choice = input("Select an option: ")  
@@ -158,7 +164,7 @@ def main():
                             if res_choice == "3":
                                 result = run_adb_command(f"shell wm size reset")
                                 print(result)
-                elif settings_choice == "4":
+                elif settings_choice == "5":
                     choices = """\n 1. Auto Rotate ON\n 2. Auto Rotate OFF\n 3. Set Rotation\n"""
                     print(choices)
                     choice = input("Select an option: ")

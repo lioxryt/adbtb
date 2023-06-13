@@ -19,7 +19,7 @@ def main():
             print(f"Currently Connected to {device_id}")
         else:
             print("No device connected.")
-        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. Edit Files\n 6. Open URL\n 7. App Options\n 8. Phone Options\n 9. Device Shell\n exit\n"""
+        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n exit\n"""
         print(menu_options)
         choice = input("Select an option: ")
         if choice == "1":
@@ -195,7 +195,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "4":
          while True:
-            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 4. Run Scrcpy\n back\n"""
+            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -204,7 +204,44 @@ def main():
                 result = run_adb_command(f"shell input keyevent KEYCODE_BACK")
             if choice == "3":
                 result = run_adb_command(f"shell input keyevent KEYCODE_APP_SWITCH")
-            if choice == "4":
+            elif choice == "back":
+                os.system("clear")
+                break
+            else:
+                print("Invalid choice.")
+        elif choice == "5":
+         while True:
+            menu_options = """\n 1. Screenshot\n 2. Screen Record\n 3. Live Feed\n back\n"""
+            print(menu_options)
+            choice = input("Select an option: ")
+            if choice == "1":
+                screenshot_path = input("Enter the directory to save the screenshot (leave blank for photos/): ")
+                if not screenshot_path:
+                    screenshot_path = "photos/"
+                elif not screenshot_path.endswith("/"):
+                    screenshot_path += "/"
+                result = run_adb_command("shell screencap -p /sdcard/screenshot.png")
+                pull_path = f"{screenshot_path}screenshot.png"
+                result = run_adb_command(f"pull /sdcard/screenshot.png {pull_path}")
+                if result:
+                    print("Screenshot saved successfully.")
+                else:
+                    print("Failed to save the screenshot.")
+            elif choice == "2":
+                duration = int(input("Enter the duration of the screen recording in seconds: "))
+                recording_path = input("Enter the directory to save the screen recording (leave blank for photos/): ")
+                if not recording_path:
+                    recording_path = "videos/"
+                elif not recording_path.endswith("/"):
+                    recording_path += "/"       
+                result = run_adb_command(f"shell screenrecord --time-limit {duration} /sdcard/screenrecord.mp4")        
+                pull_path = f"{recording_path}screenrecord.mp4"
+                result = run_adb_command(f"pull /sdcard/screenrecord.mp4 {pull_path}")
+                if result:
+                    print("Screen recording saved successfully.")
+                else:
+                    print("Failed to save the screen recording.")
+            if choice == "3":
                 command = 'osascript -e \'tell application "Terminal" to do script "clear; scrcpy; exit"\''
                 subprocess.call(command, shell=True)
             elif choice == "back":
@@ -212,7 +249,7 @@ def main():
                 break
             else:
                 print("Invalid choice.")
-        elif choice == "5":
+        elif choice == "6":
          while True:
             menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n back\n"""
             print(menu_options)
@@ -239,10 +276,10 @@ def main():
                     break
             else:
                 print("Invalid choice.")
-        elif choice == "6":
+        elif choice == "7":
             url = input("Enter ULR: ")
             result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
-        elif choice == "7":
+        elif choice == "8":
          while True:
             app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Open App\n back\n"""
             print(app_menu_options)
@@ -264,11 +301,15 @@ def main():
                     print("Failed to install the app.")
             elif app_choice == "3":         
                 package_name = input("Enter the package name of the app: ")
-                local = input("Enter where you want the APK to go (default: apks/): ") or "apks"
+                local = input("Enter where you want the APK to go (default: apks/): ")
+                if not local:
+                    local = "apk/"
+                elif not local.endswith("/"):
+                    local += "/"
                 result = run_adb_command(f"shell pm path {package_name}")
                 if result:
                     apk_path = result.split(":")[1].strip().replace("package", "")
-                    result = run_adb_command(f"pull {apk_path} {local}/{package_name}.apk")
+                    result = run_adb_command(f"pull {apk_path} {local}{package_name}.apk")
                     print(f"Successfully extracted APK from {apk_path} to {local}.")
                 else:
                     print("Failed to retrieve APK information.")
@@ -291,7 +332,7 @@ def main():
                 break
             else:
                 print("Invalid choice.")
-        elif choice == "8":
+        elif choice == "9":
          while True:
             menu_options = """\n 1. Make Phone Call\n 2. Send SMS\n 3. View All Contacts\n back\n"""
             print(menu_options)
@@ -313,7 +354,7 @@ def main():
                 break
             else:
                 print("Invalid choice.")
-        elif choice == "9":
+        elif choice == "10":
             command = 'osascript -e \'tell application "Terminal" to do script "clear; adb shell; exit"\''
             subprocess.call(command, shell=True)
             print(f"Accessing device shell. To exit, type 'exit'.")

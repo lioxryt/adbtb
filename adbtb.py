@@ -36,7 +36,7 @@ def main():
         choice = input("Select an option: ")
         if choice == "1":
             while True:
-                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n 5. Kill Server back\n"""
+                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n 5. Kill Server\n back\n"""
                 print(menu_options)
                 choice = input("Select an option: ")
                 if choice == "1":
@@ -319,7 +319,7 @@ def main():
             result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
         elif choice == "8":
          while True:
-            app_menu_options = """\n 1. List Installed Apps\n 2. Install App\n 3. Extract APK from App\n 4. Uninstall App\n 5. Uninstall All Apps (Dangerous)\n 6. Open App\n back\n"""
+            app_menu_options = """\n 1. List Installed Apps\n 2. List Running Apps\n 3. Install App\n 4. Extract APK from App\n 5. Uninstall App\n 6. Uninstall All Apps (Dangerous)\n 7. Kill App\n 8. Open App\n back\n"""
             print(app_menu_options)
             app_choice = input("Select an option: ")
             if app_choice == "1":
@@ -330,13 +330,16 @@ def main():
                 else:
                     print("No installed apps found.")
             elif app_choice == "2":
+                result = run_adb_command("shell ps | grep apps | awk '{print $9}'")
+                print(result)
+            elif app_choice == "3":
                 app_path = input("Enter the path to the APK file: ")
                 result = run_adb_command(f"install -r {app_path}")
                 if result:
                     print("App installed successfully.")
                 else:
                     print("Failed to install the app.")
-            elif app_choice == "3":         
+            elif app_choice == "4":         
                 package_name = input("Enter the package name of the app: ")
                 local = input("Enter where you want the APK to go (default: apks/): ")
                 if not local:
@@ -350,14 +353,14 @@ def main():
                     print(f"Successfully extracted APK from {apk_path} to {local}.")
                 else:
                     print("Failed to retrieve APK information.")
-            elif app_choice == "4":
+            elif app_choice == "5":
                 package_name = input("Enter the package name of the app: ")
                 result = run_adb_command(f"uninstall {package_name}")
                 if result:
                     print("App uninstalled successfully.")
                 else:
                     print("Failed to uninstall the app.")
-            elif app_choice == "5":
+            elif app_choice == "6":
                 st = run_adb_command("shell pm list packages")
                 package_list = st.split('\n')
                 packages = []
@@ -378,7 +381,10 @@ def main():
                         print("App uninstallation canceled.")
                 else:
                     print("No apps found on the device.")
-            elif app_choice == "6":
+            elif app_choice == "7":
+                package_name = input("Enter the package name of the app: ")
+                result = run_adb_command(f"shell kill {package_name}")
+            elif app_choice == "8":
                 package_name = input("Enter the package name of the app: ")
                 result = run_adb_command(f"shell monkey -p {package_name} -c android.intent.category.LAUNCHER 1")
                 if result:

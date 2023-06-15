@@ -264,8 +264,43 @@ def main():
                 else:
                     print("Failed to save the screen recording.")
             elif choice == "3":
-                command = 'osascript -e \'tell application "Terminal" to do script "clear; scrcpy; exit"\''
-                subprocess.call(command, shell=True)
+                print(
+                    f"""
+                1. Default Mode   (Best quality)
+                2. Fast Mode      (Low quality but high performance)
+                3. Custom Mode    (Tweak settings to increase performance)
+                """
+                )
+                mode = input("> ")
+                if mode == "1":
+                    os.system("scrcpy")
+                elif mode == "2":
+                    os.system("scrcpy -m 1024 -b 1M")
+                elif mode == "3":
+                    print(f"\nEnter size limit (e.g. 1024)")
+                    size = input("> ")
+                    if not size == "":
+                        size = "-m " + size
+
+                    print(
+                        f"\nEnter bit-rate (e.g. 2)   (Default : 8 Mbps)"
+                    )
+                    bitrate = input("> ")
+                    if not bitrate == "":
+                        bitrate = "-b " + bitrate + "M"
+
+                    print(f"\nEnter frame-rate (e.g. 15)")
+                    framerate = input("> ")
+                    if not framerate == "":
+                        framerate = "--max-fps=" + framerate
+
+                    os.system(f"scrcpy {size} {bitrate} {framerate}")
+                else:
+                    print(
+                        f"\n Invalid selection\n Going back to Main Menu"
+                    )
+                    return
+                print("\n")
             elif choice == "4":
                 front_camera_path = input("Enter the directory to save the front camera picture (leave blank for photos/): ")
                 if not front_camera_path:
@@ -419,9 +454,7 @@ def main():
             else:
                 print("Invalid choice.")
         elif choice == "10":
-            command = 'osascript -e \'tell application "Terminal" to do script "clear; adb shell; exit"\''
-            subprocess.call(command, shell=True)
-            print(f"Accessing device shell. To exit, type 'exit'.")
+            os.system("adb shell")
         elif choice == "99":
             toggle_debug_mode()
             print(f"Debug mode toggled. Debug mode is now {'ON' if debug_mode else 'OFF'}.")

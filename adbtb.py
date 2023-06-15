@@ -330,7 +330,7 @@ def main():
                 else:
                     print("No installed apps found.")
             elif app_choice == "2":
-                result = run_adb_command("shell ps | grep apps | awk '{print $9}'")
+                result = run_adb_command("shell dumpsys activity recents | grep 'Recent #' | awk '{print $6}'")
                 print(result)
             elif app_choice == "3":
                 app_path = input("Enter the path to the APK file: ")
@@ -383,7 +383,7 @@ def main():
                     print("No apps found on the device.")
             elif app_choice == "7":
                 package_name = input("Enter the package name of the app: ")
-                result = run_adb_command(f"shell kill {package_name}")
+                result = run_adb_command(f'shell "kill \$(pidof -s {package_name}')
             elif app_choice == "8":
                 package_name = input("Enter the package name of the app: ")
                 result = run_adb_command(f"shell monkey -p {package_name} -c android.intent.category.LAUNCHER 1")

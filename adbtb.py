@@ -383,7 +383,7 @@ def main():
                     print("No apps found on the device.")
             elif app_choice == "7":
                 package_name = input("Enter the package name of the app: ")
-                result = run_adb_command(f'shell "kill \$(pidof -s {package_name}')
+                result = run_adb_command(f"shell am force-stop {package_name}")
             elif app_choice == "8":
                 package_name = input("Enter the package name of the app: ")
                 result = run_adb_command(f"shell monkey -p {package_name} -c android.intent.category.LAUNCHER 1")

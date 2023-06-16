@@ -95,7 +95,7 @@ def main():
             elif power_choice == "3":
                 result = run_adb_command("shell reboot")
                 print("Device restart initiated.")
-            elif power_choice == "back":
+            elif power_choice == "0":
                 os.system("clear")
                 break
             else:
@@ -151,7 +151,7 @@ def main():
                         elif volume_choice == "3":
                             result = run_adb_command("shell input keyevent KEYCODE_MUTE")
                             print(result)
-                        elif volume_choice == "back":
+                        elif volume_choice == "0":
                             os.system("clear")
                             break
                         else:
@@ -207,10 +207,10 @@ def main():
                         if choice == "4":
                             result = run_adb_command("shell settings put system user_rotation 3")
                             print(result)
-                        if choice == "back":
+                        if choice == "0":
                             os.system("clear")
                             break
-                elif settings_choice == "back":
+                elif settings_choice == "0":
                     os.system("clear")
                     break
                 else:
@@ -426,7 +426,7 @@ def main():
                     print("App opened successfully.")
                 else:
                     print("Failed to open the app.")
-            elif app_choice == "back":
+            elif app_choice == "0":
                 os.system("clear")
                 break
             else:

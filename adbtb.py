@@ -31,12 +31,12 @@ def main():
             print(f"Currently Connected to {device_id}")
         else:
             print("No device connected.")
-        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n 99. Toggle Debug\n exit\n"""
+        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n 99. Toggle Debug\n 0. exit\n"""
         print(menu_options)
         choice = input("Select an option: ")
         if choice == "1":
             while True:
-                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n 5. Kill Server\n back\n"""
+                menu_options = """\n 1. Show Devices\n 2. Connect Device\n 3. Disconnect Device\n 4. Switch to TCP/IP mode\n 5. Kill Server\n 0. back\n"""
                 print(menu_options)
                 choice = input("Select an option: ")
                 if choice == "1":
@@ -75,14 +75,14 @@ def main():
                     result = run_adb_command("kill-server")
                     if result:
                         print("successfully killed ADB Server")
-                elif choice == "back":
+                elif choice == "0":
                     os.system("clear")
                     break
                 else:
                     print("Invalid choice.")
         elif choice == "2":
          while True:
-            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n back\n"""
+            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n 0. back\n"""
             print(power_menu_options)
             power_choice = input("Select an option: ")
 
@@ -102,7 +102,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "3":
             while True:
-                setting_options = """\n 1. Connections\n 2. Volume\n 3. Battery\n 4. Resolution\n 5. Rotation\n back\n"""
+                setting_options = """\n 1. Connections\n 2. Volume\n 3. Battery\n 4. Resolution\n 5. Rotation\n 0. back\n"""
                 print(setting_options)
 
                 settings_choice = input("Select an option: ")
@@ -134,7 +134,7 @@ def main():
                                     result = run_adb_command(f"shell svc bluetooth disable")
                 elif settings_choice == "2":
                     while True:
-                        volume_options = """\n 1. Increase Volume\n 2. Decrease Volume\n 3. Mute\n back\n"""
+                        volume_options = """\n 1. Increase Volume\n 2. Decrease Volume\n 3. Mute\n 0. back\n"""
                         print(volume_options)
 
                         volume_choice = input("Select an option: ")
@@ -217,7 +217,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "4":
          while True:
-            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n back\n"""
+            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 0. back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -226,14 +226,14 @@ def main():
                 result = run_adb_command(f"shell input keyevent KEYCODE_BACK")
             if choice == "3":
                 result = run_adb_command(f"shell input keyevent KEYCODE_APP_SWITCH")
-            elif choice == "back":
+            elif choice == "0":
                 os.system("clear")
                 break
             else:
                 print("Invalid choice.")
         elif choice == "5":
          while True:
-            menu_options = """\n 1. Screenshot\n 2. Screen Record\n 3. Live Feed\n 4. Front Camera Picture\n back\n"""
+            menu_options = """\n 1. Screenshot\n 2. Screen Record\n 3. Live Feed\n 4. Front Camera Picture\n 0. back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -317,14 +317,14 @@ def main():
                     print("Front camera picture saved successfully.")
                 else:
                     print("Failed to save the front camera picture.")
-            elif choice == "back":
+            elif choice == "0":
                 os.system("clear")
                 break
             else:
                 print("Invalid choice.")
         elif choice == "6":
          while True:
-            menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n back\n"""
+            menu_options = """\n 1. Push File\n 2. Pull File\n 3. Remove Folder or File\n 0. back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -344,7 +344,7 @@ def main():
                 result = run_adb_command(f"shell rm -r {remote}")
                 if result:
                     print(result)
-            elif choice == "back":
+            elif choice == "0":
                     os.system("clear")
                     break
             else:
@@ -354,7 +354,7 @@ def main():
             result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
         elif choice == "8":
          while True:
-            app_menu_options = """\n 1. List Installed Apps\n 2. List Running Apps\n 3. Install App\n 4. Extract APK from App\n 5. Uninstall App\n 6. Uninstall All Apps (Dangerous)\n 7. Kill App\n 8. Open App\n back\n"""
+            app_menu_options = """\n 1. List Installed Apps\n 2. List Running Apps\n 3. Install App\n 4. Extract APK from App\n 5. Uninstall App\n 6. Uninstall All Apps (Dangerous)\n 7. Kill App\n 8. Open App\n 0. back\n"""
             print(app_menu_options)
             app_choice = input("Select an option: ")
             if app_choice == "1":
@@ -433,7 +433,7 @@ def main():
                 print("Invalid choice.")
         elif choice == "9":
          while True:
-            menu_options = """\n 1. Make Phone Call\n 2. Send SMS\n 3. View All Contacts\n back\n"""
+            menu_options = """\n 1. Make Phone Call\n 2. Send SMS\n 3. View All Contacts\n 0. back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -448,7 +448,7 @@ def main():
             elif choice == "3":
                 result = run_adb_command(f"shell content query --uri content://com.android.contacts/data --projection display_name:data1")
                 print(result)
-            elif choice == "back":
+            elif choice == "0":
                 os.system("clear")
                 break
             else:
@@ -458,7 +458,7 @@ def main():
         elif choice == "99":
             toggle_debug_mode()
             print(f"Debug mode toggled. Debug mode is now {'ON' if debug_mode else 'OFF'}.")
-        elif choice == "exit":
+        elif choice == "0":
             os.system("clear")
             print("Exiting...")
             break

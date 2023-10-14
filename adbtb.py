@@ -237,9 +237,9 @@ def main():
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
-                screenshot_path = input("Enter the directory to save the screenshot (leave blank for photos/): ")
+                screenshot_path = input("Enter the directory to save the screenshot (leave blank for photos\\): ")
                 if not screenshot_path:
-                    screenshot_path = "photos/"
+                    screenshot_path = "photos\\"
                 elif not screenshot_path.endswith("/"):
                     screenshot_path += "/"
                 result = run_adb_command("shell screencap -p /sdcard/screenshot.png")
@@ -251,9 +251,9 @@ def main():
                     print("Failed to save the screenshot.")
             elif choice == "2":
                 duration = int(input("Enter the duration of the screen recording in seconds: "))
-                recording_path = input("Enter the directory to save the screen recording (leave blank for videos/): ")
+                recording_path = input("Enter the directory to save the screen recording (leave blank for videos\\): ")
                 if not recording_path:
-                    recording_path = "videos/"
+                    recording_path = "videos\\"
                 elif not recording_path.endswith("/"):
                     recording_path += "/"       
                 result = run_adb_command(f"shell screenrecord --time-limit {duration} /sdcard/screenrecord.mp4")        
@@ -459,7 +459,7 @@ def main():
             toggle_debug_mode()
             print(f"Debug mode toggled. Debug mode is now {'ON' if debug_mode else 'OFF'}.")
         elif choice == "0":
-            os.system("clear")
+            os.system("cls")
             print("Exiting...")
             break
         else:

@@ -1,7 +1,7 @@
 import subprocess
 import os
 import time
-os.system("clear")
+os.system("cls")
 
 debug_mode = False
 
@@ -76,7 +76,7 @@ def main():
                     if result:
                         print("successfully killed ADB Server")
                 elif choice == "0":
-                    os.system("clear")
+                    os.system("cls")
                     break
                 else:
                     print("Invalid choice.")
@@ -96,7 +96,7 @@ def main():
                 result = run_adb_command("shell reboot")
                 print("Device restart initiated.")
             elif power_choice == "0":
-                os.system("clear")
+                os.system("cls")
                 break
             else:
                 print("Invalid choice.")
@@ -152,7 +152,7 @@ def main():
                             result = run_adb_command("shell input keyevent KEYCODE_MUTE")
                             print(result)
                         elif volume_choice == "0":
-                            os.system("clear")
+                            os.system("cls")
                             break
                         else:
                             print("Invalid choice.")
@@ -208,10 +208,10 @@ def main():
                             result = run_adb_command("shell settings put system user_rotation 3")
                             print(result)
                         if choice == "0":
-                            os.system("clear")
+                            os.system("cls")
                             break
                 elif settings_choice == "0":
-                    os.system("clear")
+                    os.system("cls")
                     break
                 else:
                     print("Invalid choice.")
@@ -227,7 +227,7 @@ def main():
             if choice == "3":
                 result = run_adb_command(f"shell input keyevent KEYCODE_APP_SWITCH")
             elif choice == "0":
-                os.system("clear")
+                os.system("cls")
                 break
             else:
                 print("Invalid choice.")
@@ -273,9 +273,9 @@ def main():
                 )
                 mode = input("> ")
                 if mode == "1":
-                    os.system("scrcpy")
+                    os.system("start cmd /k scrcpy")
                 elif mode == "2":
-                    os.system("scrcpy -m 1024 -b 1M")
+                    os.system("start cmd /k scrcpy -m 1024 -b 1M")
                 elif mode == "3":
                     print(f"\nEnter size limit (e.g. 1024)")
                     size = input("> ")
@@ -294,7 +294,7 @@ def main():
                     if not framerate == "":
                         framerate = "--max-fps=" + framerate
 
-                    os.system(f"scrcpy {size} {bitrate} {framerate}")
+                    os.system(f"start cmd /k scrcpy {size} {bitrate} {framerate}")
                 else:
                     print(
                         f"\n Invalid selection\n Going back to Main Menu"
@@ -318,7 +318,7 @@ def main():
                 else:
                     print("Failed to save the front camera picture.")
             elif choice == "0":
-                os.system("clear")
+                os.system("cls")
                 break
             else:
                 print("Invalid choice.")
@@ -345,7 +345,7 @@ def main():
                 if result:
                     print(result)
             elif choice == "0":
-                    os.system("clear")
+                    os.system("cls")
                     break
             else:
                 print("Invalid choice.")
@@ -427,7 +427,7 @@ def main():
                 else:
                     print("Failed to open the app.")
             elif app_choice == "0":
-                os.system("clear")
+                os.system("cls")
                 break
             else:
                 print("Invalid choice.")
@@ -449,12 +449,12 @@ def main():
                 result = run_adb_command(f"shell content query --uri content://com.android.contacts/data --projection display_name:data1")
                 print(result)
             elif choice == "0":
-                os.system("clear")
+                os.system("cls")
                 break
             else:
                 print("Invalid choice.")
         elif choice == "10":
-            os.system("adb shell")
+            os.system("start cmd /k adb shell")
         elif choice == "99":
             toggle_debug_mode()
             print(f"Debug mode toggled. Debug mode is now {'ON' if debug_mode else 'OFF'}.")

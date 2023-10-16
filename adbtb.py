@@ -31,7 +31,7 @@ def main():
             print(f"Currently Connected to {device_id}")
         else:
             print("No device connected.")
-        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Open URL\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n 99. Toggle Debug\n 0. exit\n"""
+        menu_options = """\n 1. Device Options\n 2. Power Options\n 3. Device Settings\n 4. Interact\n 5. View\n 6. Edit Files\n 7. Remote Open\n 8. App Options\n 9. Phone Options\n 10. Device Shell\n 99. Toggle Debug\n 0. exit\n"""
         print(menu_options)
         choice = input("Select an option: ")
         if choice == "1":
@@ -217,7 +217,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "4":
          while True:
-            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 0. back\n"""
+            menu_options = """\n 1. Home Button\n 2. Back Button\n 3. Recent Button\n 4. Play Video\n 5. Open Photo\n 0. back\n"""
             print(menu_options)
             choice = input("Select an option: ")
             if choice == "1":
@@ -267,16 +267,19 @@ def main():
                 print(
                     f"""
                 1. Default Mode   (Best quality)
-                2. Fast Mode      (Low quality but high performance)
-                3. Custom Mode    (Tweak settings to increase performance)
+                2. Silent Mode   (No Sound)
+                3. Fast Mode      (Low quality but high performance)
+                4. Custom Mode    (Tweak settings to increase performance)
                 """
                 )
                 mode = input("> ")
                 if mode == "1":
                     os.system("start cmd /k scrcpy")
                 elif mode == "2":
-                    os.system("start cmd /k scrcpy -m 1024 -b 1M")
+                    os.system("start cmd /k scrcpy --no-audio")
                 elif mode == "3":
+                    os.system("start cmd /k scrcpy -m 1024 -b 1M")
+                elif mode == "4":
                     print(f"\nEnter size limit (e.g. 1024)")
                     size = input("> ")
                     if not size == "":
@@ -350,8 +353,18 @@ def main():
             else:
                 print("Invalid choice.")
         elif choice == "7":
-            url = input("Enter ULR: ")
-            result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
+            menu_options = """\n 1. Open URL\n 2. Open Video\n 3. Open Photo\n 0. back\n"""
+            print(menu_options)
+            choice = input("Select an option: ")
+            if choice == "1":
+                url = input("Enter URL: ")
+                result = run_adb_command(f"shell am start -a android.intent.action.VIEW -d {url}")
+            if choice == "2":
+                video = input("Video: ")
+                result = run_adb_command(f"shell am start -a android.intent.action.VIEW  -t video/* -d file:///storage/emulated/0/DCIM/" + video)            
+            if choice == "3":
+                photo = input("Photo: ")
+                result = run_adb_command(f"shell am start -a android.intent.action.VIEW  -t image/* -d file:///storage/emulated/0/DCIM/" + photo)                
         elif choice == "8":
          while True:
             app_menu_options = """\n 1. List Installed Apps\n 2. List Running Apps\n 3. Install App\n 4. Extract APK from App\n 5. Uninstall App\n 6. Uninstall All Apps (Dangerous)\n 7. Kill App\n 8. Open App\n 0. back\n"""

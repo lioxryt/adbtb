@@ -82,7 +82,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "2":
          while True:
-            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n 4.Factory Reset(Dangerous)\n 0. back\n"""
+            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n 4. Factory Reset(Dangerous)\n 0. back\n"""
             print(power_menu_options)
             power_choice = input("Select an option: ")
 

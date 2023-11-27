@@ -82,7 +82,7 @@ def main():
                     print("Invalid choice.")
         elif choice == "2":
          while True:
-            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n 0. back\n"""
+            power_menu_options = """\n 1. Toggle Screen\n 2. Shutdown\n 3. Restart\n 4.Factory Reset(Dangerous)\n 0. back\n"""
             print(power_menu_options)
             power_choice = input("Select an option: ")
 
@@ -95,6 +95,12 @@ def main():
             elif power_choice == "3":
                 result = run_adb_command("shell reboot")
                 print("Device restart initiated.")
+            elif power_choice == "4":
+                conf = input("Are you sure you want to Factory Reset (Y/n): ")
+                if conf.lower() == "y":
+                    run_adb_command(f'shell am broadcast -p "android" --receiver-foreground -a android.intent.action.FACTORY_RESET') 
+                else:
+                    print("App uninstallation canceled.")
             elif power_choice == "0":
                 os.system("cls")
                 break
